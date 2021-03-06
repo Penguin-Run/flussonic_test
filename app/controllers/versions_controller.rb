@@ -1,6 +1,6 @@
 class VersionsController < ApplicationController
   def index
-    
+
 
 
     data = { testMessage: 'test message' }
