@@ -1,24 +1,22 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby version: 2.7.0p0
+* Rails version: 6.0.3.5
 
-Things you may want to cover:
+Задание реализовано в виде сервиса на Rails, у которого есть API: get-запрос на сервер с указанием id Лицензии через get-параметры
+Пример запроса:
+http://0.0.0.0:3000/get-version.xml?id=2
+Сервер присылает ответ в виде xml с доступными версиями
 
-* Ruby version
+ID лицензии соответствует id записи в таблице 'Licenses' в Базе данных. При запуске приложения, если в БД пусто, будет автоматически создано две Лицензии, соответствующие лицензиям из примеров. Вот их данные:
+* License id = 1:
+  - paid_till: '04.11.2020'
+  - max_version = nil
+  - min_version = nil
 
-* System dependencies
+* License id = 2:
+  - paid_till: '04.11.2020'
+  - max_version = '20.06'
+  - min_version = '19.05'
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Сервис FlussonicLastVersion представлен классом с методом get, который возвращает "рыбу" - версию '21.02' 
