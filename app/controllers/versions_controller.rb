@@ -1,9 +1,7 @@
 require 'date'
 
-# TODO: тесты контроллера
-
 class VersionsController < ApplicationController
-  before_action :parse_params, only: :index
+  before_action :parse_params, :fill_db, only: :index
 
   NUM_OF_RELEASES_TO_TAKE = 5
   class FlussonicLastVersion
@@ -75,6 +73,15 @@ class VersionsController < ApplicationController
 
   def parse_params
     @license_id = params[:id]
+  end
+
+  # заполнит БД двумя лицензиями-примерами, если БД пустое
+  def fill_db
+    license1 = License.find_by(id: 1)
+    License.create(paid_till: '04.11.2020') unless license1
+
+    license2 = License.find_by(id: 2)
+    License.create(paid_till: '04.11.2020', max_version: '20.06', min_version: '19.05') unless license2
   end
 end
 
