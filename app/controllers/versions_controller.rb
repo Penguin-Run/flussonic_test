@@ -35,8 +35,6 @@ class VersionsController < ApplicationController
       end
       versions_list = fill_arr.take_while { |el| el > last_version - NUM_OF_RELEASES_TO_TAKE.month }
 
-      print(versions_list)
-
       # фильтруем список версий в соответствии с правилами
       versions_list = versions_list.select do |el|
         is_max = true; is_paid = true; is_min = true
