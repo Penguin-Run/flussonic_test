@@ -7,7 +7,7 @@ class VersionsController < ApplicationController
 
   NUM_OF_RELEASES_TO_TAKE = 5
   class FlussonicLastVersion
-    LAST_VERSION_FISH = '20.10'.freeze
+    LAST_VERSION_FISH = '21.02'.freeze
     def self.get
       LAST_VERSION_FISH
     end
