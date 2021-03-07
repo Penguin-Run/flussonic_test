@@ -1,5 +1,7 @@
 require 'date'
 
+# TODO: тесты контроллера
+
 class VersionsController < ApplicationController
   before_action :parse_params, only: :index
 
@@ -21,9 +23,8 @@ class VersionsController < ApplicationController
       @min_version = license.min_version ? Date.parse(license.min_version + '.01') : nil
 
       # достаем последнюю версию из сервиса и парсим в дату, по дефолту выставляем первый день месяца
-      last_version = FlussonicLastVersion.get # TODO: проверка на невалидный ответ
+      last_version = FlussonicLastVersion.get
       last_version = Date.parse(last_version + '.01')
-
       # берем пять последних релизов Flussonic
       fill_arr = Enumerator.new do |yielded|
         current = last_version
@@ -44,18 +45,34 @@ class VersionsController < ApplicationController
         is_min = el >= @min_version if @min_version
         is_max && is_paid && is_min
       end
-      versions_list = [@max_version] if versions_list.empty?
 
-      # TODO: вывести в формате гг.мм (возможно сделать в отдельной функции)
-      respond_data = { availableVersions: versions_list.map { |el| { version: el.year.to_s + '.' + el.month.to_s  } } }
+      # если пустой массив - берем максимально доступную версию
+      if versions_list.empty? && @max_version
+        versions_list = [@max_version]
+        respond_data = { availableVersions: versions_list.map { |el| { version: date_to_version(el)  } } }
+      # если массив пустой и @max_version = nil
+      elsif versions_list.empty?
+        respond_data = { availableVersions: "License with id:#{@license_id} have no available versions" }
+      # общий случай
+      else
+        respond_data = { availableVersions: versions_list.map { |el| { version: date_to_version(el)  } } }
+      end
     else
-      respond_data = { errorMessage: "Given license id doesn't exist or invalid" }
+      respond_data = { errorMessage: "License with id:#{@license_id} doesn't exist or invalid" }
     end
 
     respond_to do |format|
       format.xml { render xml: respond_data.to_xml }
       format.rss { render xml: respond_data.to_xml }
     end
+  end
+
+  def date_to_version(date)
+    return nil unless date
+
+    year = date.strftime('%Y')[2, 3]
+    month = date.strftime('%m')
+    year + '.' + month
   end
 
   def parse_params
