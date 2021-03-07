@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_224508) do
+ActiveRecord::Schema.define(version: 2021_03_07_140937) do
 
   create_table "licenses", force: :cascade do |t|
     t.date "paid_till", null: false
-    t.date "max_version"
-    t.date "min_version"
+    t.string "max_version"
+    t.string "min_version"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
