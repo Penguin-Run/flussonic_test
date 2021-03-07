@@ -21,6 +21,8 @@ ID лицензии соответствует id записи в таблице
 
 Сервис FlussonicLastVersion представлен классом с методом get, который возвращает "рыбу" - версию '21.02' 
 
-Для запуска приложения: 
-- rake db:migrate
+Для запуска приложения на новой машине: 
+- bundle install
+- yarn install --check-files
+- rails db:migrate
 - rails s
